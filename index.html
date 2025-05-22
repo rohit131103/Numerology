@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Numerology Finder</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      animation: slideIn 1s ease-out;
+      max-width: 600px;
+    }
+
+    input[type="date"] {
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #6a3093;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #a044ff;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .result strong {
+      font-size: 1.4rem;
+      color: #ffd700;
+    }
+
+    .trait-box {
+      background-color: rgba(255, 255, 255, 0.15);
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 15px;
+      text-align: left;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🔮 Numerology Finder</h1>
+  <div class="container">
+    <input type="date" id="dob" />
+    <br />
+    <button onclick="calculateNumerology()">Find My Number</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const traits = {
+      1: "Leader, independent, ambitious",
+      2: "Diplomatic, sensitive, peacemaker",
+      3: "Creative, expressive, optimistic",
+      4: "Practical, disciplined, loyal",
+      5: "Adventurous, curious, energetic",
+      6: "Nurturing, responsible, caring",
+      7: "Introspective, spiritual, thinker",
+      8: "Ambitious, powerful, goal-driven",
+      9: "Humanitarian, compassionate, wise",
+      11: `Intuitive, visionary, inspiring (Master Number)
+            <div class='trait-box'>
+              <strong>Deeper Meaning:</strong> You are an old soul with deep spiritual insight. Your intuition is powerful, and you’re meant to uplift others through inspiration and light.
+              <br><strong>Strengths:</strong> Artistic, charismatic, deeply intuitive, spiritual awareness
+              <br><strong>Challenges:</strong> Anxiety, self-doubt, need for grounding
+              <br><strong>Purpose:</strong> To bring spiritual messages into reality and help others awaken.
+            </div>` ,
+      22: `Master builder, practical visionary (Master Number)
+            <div class='trait-box'>
+              <strong>Deeper Meaning:</strong> You hold the power to turn dreams into reality. The number 22 is capable of great achievements when balanced.
+              <br><strong>Strengths:</strong> Strategic, disciplined, influential, practical dreamer
+              <br><strong>Challenges:</strong> Perfectionism, stress, heavy responsibilities
+              <br><strong>Purpose:</strong> To build large-scale positive change and impact through tangible projects.
+            </div>` ,
+      33: `Master teacher, nurturing healer (Master Number)
+            <div class='trait-box'>
+              <strong>Deeper Meaning:</strong> The 33 is the most spiritually evolved number, combining the nurturing of 6 with the spirituality of 11.
+              <br><strong>Strengths:</strong> Compassionate, wise, healer, selfless love
+              <br><strong>Challenges:</strong> Over-giving, burnout, martyrdom complex
+              <br><strong>Purpose:</strong> To teach universal love and healing to humanity.
+            </div>`
+    };
+
+    function calculateNumerology() {
+      const dob = document.getElementById("dob").value;
+      if (!dob) {
+        alert("Please enter your date of birth.");
+        return;
+      }
+
+      const digits = dob.replace(/-/g, "").split("").map(Number);
+      let sum = digits.reduce((a, b) => a + b, 0);
+
+      while (![11, 22, 33].includes(sum) && sum > 9) {
+        sum = sum.toString().split("").reduce((a, b) => a + parseInt(b), 0);
+      }
+
+      const personality = traits[sum] || "Unknown";
+      document.getElementById("result").innerHTML =
+        `<p>Your Life Path Number is <strong>${sum}</strong></p>
+         <p>${personality}</p>`;
+    }
+  </script>
+</body>
+</html>
